@@ -110,7 +110,7 @@ def create_pipeline_with_model(model, model_id):
 
 # Main execution
 if __name__ == "__main__":
-    model_id = "openai/gpt-oss-120b"  # Change to your desired model
+    model_id = "bigscience/bloom-176b"  # Change to your desired model
     
     try:
         # Try main method first
@@ -142,7 +142,15 @@ if __name__ == "__main__":
             allocated = torch.cuda.memory_allocated(i) / 1024**3
             print(f"GPU {i}: {allocated:.1f}GB allocated")
         
-        if allocated > 1.0 for i in range(torch.cuda.device_count()):
+        # Check if both GPUs are being used
+        both_gpus_used = True
+        for i in range(torch.cuda.device_count()):
+            allocated = torch.cuda.memory_allocated(i) / 1024**3
+            if allocated < 1.0:
+                both_gpus_used = False
+                break
+        
+        if both_gpus_used:
             print("✅ Both GPUs are being utilized!")
         else:
             print("❌ Both GPUs are not being utilized properly")
