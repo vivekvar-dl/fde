@@ -142,7 +142,7 @@ if __name__ == "__main__":
             allocated = torch.cuda.memory_allocated(i) / 1024**3
             print(f"GPU {i}: {allocated:.1f}GB allocated")
         
-        if allocated > 1.0 for i in range(torch.cuda.device_count()):
+        if all(torch.cuda.memory_allocated(i) / 1024**3 > 1.0 for i in range(torch.cuda.device_count())):
             print("✅ Both GPUs are being utilized!")
         else:
             print("❌ Both GPUs are not being utilized properly")
