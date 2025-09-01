@@ -110,7 +110,7 @@ def create_pipeline_with_model(model, model_id):
 
 # Main execution
 if __name__ == "__main__":
-    model_id = "bigscience/bloom-176b"  # Change to your desired model
+    model_id = "openai/gpt-oss-120b"  # Change to your desired model
     
     try:
         # Try main method first
